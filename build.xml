@@ -1,0 +1,54 @@
+<project default="compile">
+	<property name="root" value="com/JavaRaytracer" />
+	<property name="appName" value="JavaRaytracer" />
+	<property name="bin-dir" location="bin" />
+	<property name="lib-dir" location="lib" />
+	<property name="src-dir" location="src" />
+	<property name="res-dir" location="src/${root}/Resources" />
+	<property name="rescpy-dir" location="bin/${root}/Resources" />
+	
+	<target name="init">
+		<mkdir dir="${bin-dir}" />
+		<mkdir dir="${lib-dir}" />
+	</target>
+    
+    <target name="clean-init">
+    	<delete dir="${bin-dir}" />
+    	<delete dir="${lib-dir}" />
+    </target>
+    
+    <target name="compile" depends="init">
+        <javac srcdir="${src-dir}" destdir="${bin-dir}"/>
+    </target>
+    
+    <target name="clean-compile">
+    	<delete>
+    		<fileset dir="${bin-dir}" includes="**/*.class" />
+    	</delete>
+    </target>
+    
+    <target name="clean-jar">
+    	<delete file="${lib-dir}/${appName}.jar" />
+    </target>
+    
+    <target name="jar" depends="compile">
+    	<mkdir dir="${rescpy-dir}" />
+    	<copy todir="${rescpy-dir}">
+    		<fileset dir="${res-dir}" />
+    	</copy>
+    	<jar destfile="${lib-dir}/${appName}.jar">
+			<manifest>
+				<attribute name="Main-Class" value="${root}/Application/${appName}"/>
+			</manifest>
+			<fileset dir="${bin-dir}" />
+		</jar>
+	</target>
+	
+	<target name="run" depends="jar">
+		<java fork="true" jar="${lib-dir}/${appName}.jar">
+			<classpath path="${lib-dir}" />
+		</java>
+	</target>
+	
+	<target name="all" depends="run" />
+</project>

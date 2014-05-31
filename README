@@ -1,0 +1,15 @@
+-----Java Raytracer-----
+
+This is a raytracer project made using JavaFX. It will interpret a
+scene file containing information on the objects to be displayed and their
+properties. Scene description language coming soon.
+
+Anticipated Features:
+	# Support for Intersection of Triangles, Spheres, and Quads
+	# Support for External Object Files
+	# Transparency, Diffraction, and Reflection
+	# Multiple Light Sources and Soft Shadows
+	# Background Color and Ambient Lighting
+	# Antialiasing, Depth of Field, and Motion Blur
+	# Texture Mapping?
+	# Elapsed and Estimated Remaining Time
