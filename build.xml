@@ -1,5 +1,6 @@
 <project default="compile">
 	<property name="root" value="com/JavaRaytracer" />
+	<property name="pkgroot" value="com.JavaRaytracer" />
 	<property name="appName" value="JavaRaytracer" />
 	<property name="bin-dir" location="bin" />
 	<property name="lib-dir" location="lib" />
@@ -38,7 +39,7 @@
     	</copy>
     	<jar destfile="${lib-dir}/${appName}.jar">
 			<manifest>
-				<attribute name="Main-Class" value="${root}/Application/${appName}"/>
+				<attribute name="Main-Class" value="${pkgroot}.Application.${appName}"/>
 			</manifest>
 			<fileset dir="${bin-dir}" />
 		</jar>
