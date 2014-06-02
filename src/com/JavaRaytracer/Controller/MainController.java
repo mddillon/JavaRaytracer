@@ -25,7 +25,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        LdScnBtn.setOnAction(this::loadScene);
     }
     
     /**
