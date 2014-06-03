@@ -17,7 +17,7 @@ public class MainController implements Initializable {
     
     @FXML Button LdScnBtn;
 
-    public Stage appStage;
+    private Stage appStage;
 
     public MainController(Stage appStage) {
         this.appStage = appStage;
@@ -29,9 +29,9 @@ public class MainController implements Initializable {
     }
     
     /**
-     * Method to open file dialog for selecting scenefile
+     * Opens file dialog for selecting scene file
      */
-    public void loadScene(ActionEvent event) {
+    private void loadScene(ActionEvent event) {
         final FileChooser fileChooser = new FileChooser();
         File sceneFile = fileChooser.showOpenDialog(appStage);
         if (sceneFile != null) {

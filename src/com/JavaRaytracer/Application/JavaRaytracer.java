@@ -23,7 +23,7 @@ public class JavaRaytracer extends Application {
 	public void start(Stage primaryStage) {		
         try {
             // Load the root layout from the fxml file
-        	final String loc = "/com/JavaRaytracer/Resources/JavaRaytracer.fxml";
+            final String loc = "/com/JavaRaytracer/Resources/JavaRaytracer.fxml";
             FXMLLoader loader = new FXMLLoader(JavaRaytracer.class.getResource(loc));
             MainController mainController = new MainController(primaryStage);
             loader.setController(mainController);
