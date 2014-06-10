@@ -15,8 +15,14 @@ import javafx.stage.Stage;
  
 public class MainController implements Initializable {
     
+    // FXML Loaded UI Elements
     @FXML Button LdScnBtn;
-
+    
+    // Model Instance Data
+    //private SceneInterpreter parser;
+    //private Render activeRender;
+    
+    // Controller's necessary instance data
     private Stage appStage;
 
     public MainController(Stage appStage) {
@@ -36,6 +42,12 @@ public class MainController implements Initializable {
         File sceneFile = fileChooser.showOpenDialog(appStage);
         if (sceneFile != null) {
             // Parse the file and store surface and lighting information
+            /* Psuedocode:
+             * parser = new SceneInterpreter();
+             * activeRender = parser.parse(sceneFile);
+             * activeRender.setCanvas(ImageCanvas);
+             * activeRender.trace();
+             */
         }
     }
 }

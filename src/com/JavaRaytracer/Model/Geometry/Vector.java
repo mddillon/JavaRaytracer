@@ -39,6 +39,18 @@ public class Vector {
     }
 
     /**
+     * Returns a scaled vector by multiplying all of its components by a given
+     * coefficient.
+     * @param t a coefficient by which to scale the vector
+     * @return the scaled vector
+     */
+    public void scale(double t) {
+        x *= t;
+        y *= t;
+        z *= t;
+    }
+    
+    /**
      * Normalizes the vector. The end result is that the vector's direction is
      * unchanged but its magnitude is now equal to one.
      */
@@ -69,6 +81,16 @@ public class Vector {
         z = 2*normal.z*dotproduct - refl.z;
     }
     
+    /**
+     * Returns a scaled vector by multiplying all of its components by a given
+     * coefficient.
+     * @param t a coefficient by which to scale the vector
+     * @return the scaled vector
+     */
+    public Vector getScaled(double t) {
+        return new Vector(x*t, y*t, z*t);
+    }
+        
     /**
      * @return a vector equal to the normalized vector
      */
@@ -124,6 +146,22 @@ public class Vector {
         out -= b.x*(a.y*c.z - a.z*c.y);
         out += c.x*(a.y*b.z - a.z*b.y);
         return out;
+    }
+    
+    /**
+     * Computes the component-wise sum of the given vectors.
+     * @return the Vector sum denoted by a + b
+     */
+    public static Vector getSum(Vector a, Vector b) {
+        return new Vector(a.x + b.x, a.y + b.y, a.z + b.z);
+    }
+    
+    /**
+     * Computes the component-wise difference of the given vectors. 
+     * @return the vector difference denoted by a - b
+     */
+    public static Vector getDifference(Vector a, Vector b) {
+        return new Vector(a.x - b.x, a.y - b.y, a.z - b.z);
     }
 
     /**
