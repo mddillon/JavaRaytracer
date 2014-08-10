@@ -1,0 +1,25 @@
+# four reflective spheres
+
+fov 60
+
+# blue background
+
+background 0.2 0.2 1
+
+# one light source
+
+light .4 0 0  .5 .5 .5
+
+# four reflective spheres
+
+diffuse .7 .7 .7
+ambient 0 0 0 
+specular 0 0 0 20
+reflective 0.7
+
+sphere 1.41421356   1  1 -1
+sphere 1.41421356  -1 -1 -1
+sphere 1.41421356   1 -1  1
+sphere 1.41421356  -1  1  1
+
+write

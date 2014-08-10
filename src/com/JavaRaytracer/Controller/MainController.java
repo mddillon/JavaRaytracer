@@ -10,17 +10,21 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import com.JavaRaytracer.Model.*;
  
 public class MainController implements Initializable {
     
     // FXML Loaded UI Elements
     @FXML Button LdScnBtn;
+	@FXML Canvas mainCanvas;
     
     // Model Instance Data
-    //private SceneInterpreter parser;
-    //private Render activeRender;
+    private Render activeRender;
     
     // Controller's necessary instance data
     private Stage appStage;
@@ -42,12 +46,16 @@ public class MainController implements Initializable {
         File sceneFile = fileChooser.showOpenDialog(appStage);
         if (sceneFile != null) {
             // Parse the file and store surface and lighting information
-            /* Psuedocode:
-             * parser = new SceneInterpreter();
-             * activeRender = parser.parse(sceneFile);
-             * activeRender.setCanvas(ImageCanvas);
-             * activeRender.trace();
-             */
+            System.out.println("About to parse.");
+            activeRender = SceneInterpreter.interpret(sceneFile);
+            System.out.println("Finished parsing.");
+            if (activeRender != null) {
+                activeRender.setCanvas(mainCanvas);
+                activeRender.trace();
+            }
+            else {
+                System.out.println("There was an issue generating the scene. Correct the scene file and try again.");
+            }
         }
     }
 }

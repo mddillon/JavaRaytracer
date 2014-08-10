@@ -1,7 +1,7 @@
 package com.JavaRaytracer.Model.Geometry;
 
 public class Ray extends Vector {
-    protected Point origin;
+    private Point origin;
     
     /**
      * Constructs a unit array at the world origin.
@@ -31,10 +31,9 @@ public class Ray extends Vector {
      * @param origin the starting point of the ray
      * @param next   any secondary point that exists on the ray
      */
-    public Ray(Point origin, Point next) {
+    public Ray(Point origin, Point next) {    
+        super(origin, next);
         this.origin = origin;
-        Vector dir = new Vector(origin, next);
-        x = dir.x; y = dir.y; z = dir.z;
     }
     
     /**
@@ -43,8 +42,8 @@ public class Ray extends Vector {
      * @param dir    the direction of the ray
      */
     public Ray(Point origin, Vector dir) {
+        super(dir.x, dir.y, dir.z);
         this.origin = origin;
-        x = dir.x; y = dir.y; z = dir.z;
     }
     
     /**
@@ -64,4 +63,12 @@ public class Ray extends Vector {
     public Point getOrigin() {
         return origin;
     }
+    
+    public String toString() {
+        String out = "Ray\n";
+        out += "Direction: " + x + ", " + y + ", " + z + "\n";
+        out += "Origin: " + origin.getX() + ", " + origin.getY() + ", " + 
+                origin.getZ() + "\n";
+        return out;
+    }    
 }
