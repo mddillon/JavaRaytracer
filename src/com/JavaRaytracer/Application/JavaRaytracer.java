@@ -12,15 +12,15 @@ import com.JavaRaytracer.Controller.MainController;
 
 public class JavaRaytracer extends Application {
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		launch(args);
+	}
 
-    @Override
-    public void start(Stage primaryStage) {
+	@Override
+	public void start(Stage primaryStage) {		
         try {
             // Load the root layout from the fxml file
             final String loc = "/com/JavaRaytracer/Resources/JavaRaytracer.fxml";
@@ -37,5 +37,4 @@ public class JavaRaytracer extends Application {
         }
     }
 
-    // This is an added comment.
 }
