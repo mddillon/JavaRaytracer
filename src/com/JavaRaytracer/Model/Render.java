@@ -25,7 +25,7 @@ public class Render {
     
     public Render() {
         pinlights = new ArrayList<Light>();
-        surfaces = new ArrayList();
+        surfaces = new ArrayList<Surface>();
         eye = new Point();
         gaze = new Vector(0, 0, -1);
         background = new Color();

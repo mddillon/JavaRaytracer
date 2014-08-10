@@ -51,6 +51,17 @@ public class SceneInterpreter {
                                                                Double.parseDouble(tokens[3])));
 							}						
                             break;
+                        case "eye":
+                            if (tokens.length != 4) {
+                                existsError = true;
+                                reportError(i);
+                            }
+                            else {
+                                render.setEye(new Point(Double.parseDouble(tokens[1]),
+                                                        Double.parseDouble(tokens[2]),
+                                                        Double.parseDouble(tokens[3])));
+                            }
+                            break;
                         case "light":
 							if (tokens.length != 7) {
 								existsError = true;

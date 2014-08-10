@@ -2,14 +2,52 @@
 
 This is a raytracer project made using JavaFX. It will interpret a
 scene file containing information on the objects to be displayed and their
-properties. Scene description language coming soon.
+properties. Scene description language below.
 
-Anticipated Features:
-	# Support for Intersection of Triangles, Spheres, and Quads
+Scene Description Language
+--------------------------
+This JavaFX raytracer loads a scene from a text file that properly adheres to the following constraints.
+    1. "#" symbols are used for comments. Only single-line comments allowed.
+    2. A single-line element begins with a keyword. Multi-line elements must begin AND end with a keyword.
+    3. All colors are floating-points between 0.0 and 1.0.
+    4. Vertices of a polygon are called in clockwise order
+
+IMPORTANT: The camera/eye position defaults to (0, 0, 0) and aims down the negative z axis. The position can be changed, but it's tilt and aim cannot be changed at the moment. This will hopefully come soon.
+
+Single-line Elements
+    # fov angle
+        Specifies field of view angle
+    # eye x y z
+        Specifies the world coordinates of the camera/eye
+    # background r g b
+        Specifies background color
+    # light x y z r g b
+        Specifies a pinlight's position and color
+    # ambient r g b
+        Specifies a surfaces
+    # diffuse r g b
+        Specifies a surface's diffuse color
+    # specular r g b p
+        Specifies a surface's specular attributes: color and phong coefficient
+    # reflective k
+        Specifies a surface's reflectance; between 0.0 and 1.0
+    # sphere radius x y z
+        Specifies a sphere's radius and world coordinates
+
+Block Elements
+    # begin
+    # vertex x y z
+    # end
+    These keywords are used to define a polygon. Currently, only triangles are supported. Therefore, exactly 3 vertex calls must be made between begin and end. Quads may be supported in the future.
+
+Anticipated Features
+--------------------
+	# Support for Intersection of Quads and Planes
 	# Support for External Object Files
-	# Transparency, Diffraction, and Reflection
+	# Transparency and Diffraction
 	# Multiple Light Sources and Soft Shadows
 	# Background Color and Ambient Lighting
 	# Antialiasing, Depth of Field, and Motion Blur
 	# Texture Mapping?
 	# Elapsed and Estimated Remaining Time
+	# Changing aim direction and rotation of camera/eye.
