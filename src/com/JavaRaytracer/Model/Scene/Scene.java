@@ -51,7 +51,6 @@ public class Scene {
 		if (pinlight != null) {
 			lights.add(pinlight);
         }
-
     }
     
     public void addSurface(Surface surface) {
@@ -94,5 +93,9 @@ public class Scene {
 
     public double getCameraPitch() {
         return cameraPitch;
+    }
+
+    public void setHalfwidth(double halfwidth) {
+        this.halfwidth = halfwidth;
     }
 }

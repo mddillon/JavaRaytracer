@@ -4,9 +4,7 @@ import com.JavaRaytracer.Model.Geometry.*;
 
 public class Triangle extends Surface {
 
-    private Point a;
-    private Point b;
-    private Point c;
+    private Point a, b, c;
     private Vector normal;
 
     // Assumes vertices given in clockwise order

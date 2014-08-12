@@ -7,7 +7,7 @@ public class Ray extends Vector {
      * Constructs a unit array at the world origin.
      */
     public Ray() {
-        super(1.0, 1.0, 1.0);
+        super(1.0/3, 1.0/3, 1.0/3);
         origin = new Point();
     }
     

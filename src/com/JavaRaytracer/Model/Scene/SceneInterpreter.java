@@ -5,23 +5,26 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.JavaRaytracer.Model.Geometry.Point;
+import com.JavaRaytracer.Model.Geometry.Ray;
+import com.JavaRaytracer.Model.Geometry.Vector;
 
 public class SceneInterpreter {
     
     private static Color ambient, diffuse, specular;
-    private static double reflectance, phong, halfwidth;
-    private static boolean existsError;
-    private static boolean settingCamera;
+    private static double reflectance, phong;
+    private static boolean existsError, settingCamera, creatingPlane;
     private static Point[] vert;
+    private static Plane plane;
     private static int numVerts;
     
     public static Scene interpret(File sceneFile) {
         Scene scene = new Scene();
         existsError = false;
         settingCamera = false;
+        creatingPlane = false;
         numVerts = 0;
         ambient = new Color(); diffuse = new Color(); specular = new Color();
-        reflectance = 0; phong = 0; halfwidth = Math.tan(Math.PI/6);
+        reflectance = 0; phong = 0;
         try {
             Scanner in = new Scanner(sceneFile);
             in.useDelimiter("\n");
@@ -38,8 +41,8 @@ public class SceneInterpreter {
 							}
 							else {
                                 // This conversion gives half of field of view, which is more important
-                                double angle = Math.toRadians(Double.parseDouble(tokens[1]));
-                                halfwidth = Math.tan(angle); 
+                                double angle = 0.5 * Math.toRadians(Double.parseDouble(tokens[1]));
+                                scene.setHalfwidth(Math.tan(angle));
 							}
                             break;
                         case "background":
@@ -208,6 +211,59 @@ public class SceneInterpreter {
                             break;
                         case "endCamera":
                             settingCamera = false;
+                            break;
+                        case "beginPlane":
+                            creatingPlane = true;
+                            numVerts = 0;
+                            vert = new Point[3];
+                            break;
+                        case "Ray":
+                            if (creatingPlane) {
+                                if (tokens.length != 7) {
+                                    existsError = true;
+                                    reportError(i);
+                                }
+                                else {
+                                    plane = new Plane(
+                                        new Ray(
+                                                Double.parseDouble(tokens[1]),
+                                                Double.parseDouble(tokens[2]),
+                                                Double.parseDouble(tokens[3]),
+                                                Double.parseDouble(tokens[4]),
+                                                Double.parseDouble(tokens[5]),
+                                                Double.parseDouble(tokens[6])
+                                        )
+                                    );
+                                }
+                            }
+                            break;
+                        case "point":
+                            if (creatingPlane) {
+                                if (tokens.length != 4) {
+                                    existsError = true;
+                                    reportError(i);
+                                } else {
+                                    vert[numVerts] = new Point(
+                                            Double.parseDouble(tokens[1]),
+                                            Double.parseDouble(tokens[2]),
+                                            Double.parseDouble(tokens[3])
+                                    );
+                                    numVerts++;
+                                }
+                            }
+                            break;
+                        case "endPlane":
+                            if (numVerts != 3 && plane == null) {
+                                System.out.println("Improper Plane Description.");
+                            }
+                            else if (plane == null) {
+                                plane = new Plane(vert[0], vert[1], vert[2]);
+                            }
+                            plane.setColors(ambient, diffuse, specular);
+                            plane.setLightProperties(reflectance, phong);
+                            scene.addSurface(plane);
+                            creatingPlane = false;
+                            plane = null;
                             break;
                         default:
                             break;

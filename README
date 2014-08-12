@@ -12,7 +12,7 @@ This JavaFX raytracer loads a scene from a text file that properly adheres to th
     3. All colors are floating-points between 0.0 and 1.0.
     4. Vertices of a polygon are called in clockwise order
 
-IMPORTANT: The camera/eye position defaults to (0, 0, 0) and aims down the negative z axis. The position can be changed, but it's tilt and aim cannot be changed at the moment. This will hopefully come soon.
+IMPORTANT: The camera/eye position defaults to (0, 0, 0) and aims down the negative z axis. Adjustments can be made by using the camera block elements.
 
 Single-line Elements
     # fov angle
@@ -35,23 +35,33 @@ Single-line Elements
         Specifies a sphere's radius and world coordinates
 
 Block Elements
+
     # begin
     # vertex x y z
     # end
         These keywords are used to define a polygon. Currently, only triangles are supported. Therefore, exactly 3 vertex calls must be made between begin and end. Quads may be supported in the future.
+
     # beginCamera
     # position x y z
     # spin angle
     # tilt angle
     # endCamera
+        These keywords are used to perform camera adjustments. The position is in world coordinates, and the angles are both in radians. 'Spin' refers to the rotation in the xz plane, and tilt is the verticle angle.
+
+    # beginPlane
+        [OPTION 1]
+        # Ray x y z u v w
+        [OPTION 2]
+        # point x y z
+    # endPlane
+        These keywords are used to define a plane. The plane can be defined in one of two ways. The first option is to use a ray with origin (x, y, z) and direction (u, v, w). The second option is to provide 3 non-linear points that lie in the plane. Points must be provided in clockwise order.
+
 Anticipated Features
 --------------------
-	# Support for Intersection of Quads and Planes
+	# Support for Intersection of Quads
 	# Support for External Object Files
 	# Transparency and Diffraction
 	# Multiple Light Sources and Soft Shadows
-	# Background Color and Ambient Lighting
 	# Antialiasing, Depth of Field, and Motion Blur
 	# Texture Mapping?
 	# Elapsed and Estimated Remaining Time
-	# Changing aim direction and rotation of camera/eye.
