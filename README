@@ -24,7 +24,7 @@ Single-line Elements
     # light x y z r g b
         Specifies a pinlight's position and color
     # ambient r g b
-        Specifies a surfaces
+        Specifies a surface's ambient color
     # diffuse r g b
         Specifies a surface's diffuse color
     # specular r g b p
@@ -38,8 +38,12 @@ Block Elements
     # begin
     # vertex x y z
     # end
-    These keywords are used to define a polygon. Currently, only triangles are supported. Therefore, exactly 3 vertex calls must be made between begin and end. Quads may be supported in the future.
-
+        These keywords are used to define a polygon. Currently, only triangles are supported. Therefore, exactly 3 vertex calls must be made between begin and end. Quads may be supported in the future.
+    # beginCamera
+    # position x y z
+    # spin angle
+    # tilt angle
+    # endCamera
 Anticipated Features
 --------------------
 	# Support for Intersection of Quads and Planes

@@ -28,14 +28,19 @@ public class Point extends Spatial3D {
     }
 
     /**
-     * Adds two 3D elements by their coordinate values.
-     * @param a a 3D element
-     * @param b a 3D element
-     * @return a new point whose coordinates are the sum of the first and second
-     *         elements
+     * Adds multiple 3D elements by their coordinate values.
+     * @param terms a list of Spatial3D terms to be added
+     * @return a new point whose coordinates are the sum of the terms' coordinates
      */
-    public static Point getSum(Spatial3D a, Spatial3D b) {
-        return new Point(a.x + b.x, a.y + b.y, a.z + b.z);
+
+    public static Point getSum(Spatial3D ... terms) {
+        double x = 0; double y = 0; double z = 0;
+        for (int i = 0; i < terms.length; i++) {
+            x += terms[i].x;
+            y += terms[i].y;
+            z += terms[i].z;
+        }
+        return new Point(x, y, z);
     }
 
     /**

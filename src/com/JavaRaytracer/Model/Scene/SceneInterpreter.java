@@ -1,23 +1,24 @@
-package com.JavaRaytracer.Model;
+package com.JavaRaytracer.Model.Scene;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
 import com.JavaRaytracer.Model.Geometry.Point;
-import com.JavaRaytracer.Model.Scene.*;
 
 public class SceneInterpreter {
     
     private static Color ambient, diffuse, specular;
     private static double reflectance, phong, halfwidth;
     private static boolean existsError;
+    private static boolean settingCamera;
     private static Point[] vert;
     private static int numVerts;
     
-    public static Render interpret(File sceneFile) {
-        Render render = new Render();
+    public static Scene interpret(File sceneFile) {
+        Scene scene = new Scene();
         existsError = false;
+        settingCamera = false;
         numVerts = 0;
         ambient = new Color(); diffuse = new Color(); specular = new Color();
         reflectance = 0; phong = 0; halfwidth = Math.tan(Math.PI/6);
@@ -36,7 +37,8 @@ public class SceneInterpreter {
 								reportError(i);
 							}
 							else {
-                                double angle = (Double.parseDouble(tokens[1]))*Math.PI/360; // Conversion gives half of field of view, which is more important
+                                // This conversion gives half of field of view, which is more important
+                                double angle = Math.toRadians(Double.parseDouble(tokens[1]));
                                 halfwidth = Math.tan(angle); 
 							}
                             break;
@@ -46,21 +48,10 @@ public class SceneInterpreter {
 								reportError(i);
 							}
 							else {
-								render.setBackground(new Color(Double.parseDouble(tokens[1]),
+								scene.setBackground(new Color(Double.parseDouble(tokens[1]),
                                                                Double.parseDouble(tokens[2]),
                                                                Double.parseDouble(tokens[3])));
 							}						
-                            break;
-                        case "eye":
-                            if (tokens.length != 4) {
-                                existsError = true;
-                                reportError(i);
-                            }
-                            else {
-                                render.setEye(new Point(Double.parseDouble(tokens[1]),
-                                                        Double.parseDouble(tokens[2]),
-                                                        Double.parseDouble(tokens[3])));
-                            }
                             break;
                         case "light":
 							if (tokens.length != 7) {
@@ -68,7 +59,7 @@ public class SceneInterpreter {
 								reportError(i);
 							}
 							else {
-                                render.addPinlight(new Light(Double.parseDouble(tokens[1]),
+                                scene.addPinlight(new Light(Double.parseDouble(tokens[1]),
                                                              Double.parseDouble(tokens[2]),
                                                              Double.parseDouble(tokens[3]),
                                                              Double.parseDouble(tokens[4]),
@@ -131,7 +122,7 @@ public class SceneInterpreter {
                                                            Double.parseDouble(tokens[4]));
                                 sphere.setColors(ambient, diffuse, specular);
                                 sphere.setLightProperties(reflectance, phong);
-                                render.addSurface(sphere);
+                                scene.addSurface(sphere);
 							}	
                             break;
                         case "begin":
@@ -166,12 +157,57 @@ public class SceneInterpreter {
                                     Triangle triangle = new Triangle(vert[0], vert[1], vert[2]);
                                     triangle.setColors(ambient, diffuse, specular);
                                     triangle.setLightProperties(reflectance, phong);
-                                    render.addSurface(triangle);
+                                    scene.addSurface(triangle);
                                 }
                                 else {
                                     System.out.println("Incomplete polygon before line " + i);
                                 }
 							}	
+                            break;
+                        case "beginCamera":
+                            settingCamera = true;
+                            break;
+                        case "position":
+                            if (settingCamera) {
+                                if (tokens.length != 4) {
+                                    existsError = true;
+                                    reportError(i);
+                                }
+                                else {
+                                    scene.setCameraPosition(
+                                            new Point(
+                                                Double.parseDouble(tokens[1]),
+                                                Double.parseDouble(tokens[2]),
+                                                Double.parseDouble(tokens[3])
+                                            )
+                                    );
+                                }
+                            }
+                            break;
+                        case "spin":
+                            if (settingCamera) {
+                                if (tokens.length != 2) {
+                                    existsError = true;
+                                    reportError(i);
+                                }
+                                else {
+                                    scene.setCameraSpin(Double.parseDouble(tokens[1]));
+                                }
+                            }
+                            break;
+                        case "tilt":
+                            if (settingCamera) {
+                                if (tokens.length != 2) {
+                                    existsError = true;
+                                    reportError(i);
+                                }
+                                else {
+                                    scene.setCameraTilt(Double.parseDouble(tokens[1]));
+                                }
+                            }
+                            break;
+                        case "endCamera":
+                            settingCamera = false;
                             break;
                         default:
                             break;
@@ -179,12 +215,12 @@ public class SceneInterpreter {
                 }
 				i++;
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Something else went wrong.");
         } finally {
-            if (existsError) render = null;
-            return render;
+            if (existsError) scene = null;
+            return scene;
         }
     }
     
