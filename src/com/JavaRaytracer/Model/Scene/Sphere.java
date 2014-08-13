@@ -41,7 +41,7 @@ public class Sphere extends Surface {
     public String toString() {
         String out = "Sphere\n";
         out += "Center " + center.toString();
-        out += "Radius = " + radius;
+        out += "Radius = " + radius + "\n";
         out += super.toString();
         out += "\n";
         return out;

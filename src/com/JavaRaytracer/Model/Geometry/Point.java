@@ -22,7 +22,7 @@ public class Point extends Spatial3D {
     }
 
     public String toString() {
-        String out = "Point\n";
+        String out = "Point: ";
         out += x + ", " + y + ", " + z + "\n";
         return out;
     }

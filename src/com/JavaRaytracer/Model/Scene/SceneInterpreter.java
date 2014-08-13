@@ -217,7 +217,7 @@ public class SceneInterpreter {
                             numVerts = 0;
                             vert = new Point[3];
                             break;
-                        case "Ray":
+                        case "ray":
                             if (creatingPlane) {
                                 if (tokens.length != 7) {
                                     existsError = true;
@@ -235,6 +235,7 @@ public class SceneInterpreter {
                                         )
                                     );
                                 }
+                                creatingPlane = false;
                             }
                             break;
                         case "point":
@@ -255,6 +256,8 @@ public class SceneInterpreter {
                         case "endPlane":
                             if (numVerts != 3 && plane == null) {
                                 System.out.println("Improper Plane Description.");
+                                existsError = true;
+                                break;
                             }
                             else if (plane == null) {
                                 plane = new Plane(vert[0], vert[1], vert[2]);
@@ -264,6 +267,21 @@ public class SceneInterpreter {
                             scene.addSurface(plane);
                             creatingPlane = false;
                             plane = null;
+                            break;
+                        case "quadric":
+                            if (tokens.length != 8 && tokens.length != 11) {
+                                existsError = true;
+                                reportError(i);
+                                break;
+                            }
+                            else {
+                                Quad quad;
+                                if (tokens.length == 8) quad = Quad.getSimpleQuad(tokens);
+                                else quad = Quad.getComplexQuad(tokens);
+                                quad.setColors(ambient, diffuse, specular);
+                                quad.setLightProperties(reflectance, phong);
+                                scene.addSurface(quad);
+                            }
                             break;
                         default:
                             break;

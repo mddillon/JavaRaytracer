@@ -76,7 +76,7 @@ public class Vector extends Spatial3D {
     }
     
     public String toString() {
-        String out = "Vector\n" + x + ", " + y + ", " + z + "\n";
+        String out = "Vector: " + x + ", " + y + ", " + z + "\n";
         return out;
     }
 

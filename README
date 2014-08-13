@@ -33,6 +33,10 @@ Single-line Elements
         Specifies a surface's reflectance; between 0.0 and 1.0
     # sphere radius x y z
         Specifies a sphere's radius and world coordinates
+    # quadric a b c d x y z
+        Specifies a quadric surface of the form ax^2 + by^2 + cz^2 + d = 0
+    # quadric a b c d e f g h i j
+        Specifies a quadric surface of the form ax^2 + by^2 + cz^2 + dxy + exz + fyz + gx + hy iz + j = 0
 
 Block Elements
 
@@ -50,7 +54,7 @@ Block Elements
 
     # beginPlane
         [OPTION 1]
-        # Ray x y z u v w
+        # ray x y z u v w
         [OPTION 2]
         # point x y z
     # endPlane
@@ -60,8 +64,9 @@ Anticipated Features
 --------------------
 	# Support for Intersection of Quads
 	# Support for External Object Files
+	# Exporting render to image file
 	# Transparency and Diffraction
-	# Multiple Light Sources and Soft Shadows
+	# Soft Shadows
 	# Antialiasing, Depth of Field, and Motion Blur
 	# Texture Mapping?
 	# Elapsed and Estimated Remaining Time
