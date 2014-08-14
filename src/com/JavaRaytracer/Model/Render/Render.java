@@ -34,6 +34,10 @@ public class Render {
         }
     }
 
+    public static int[] getImageData() {
+        return pixelBuffer;
+    }
+
     public static void trace() {
         double yaw = scene.getCameraYaw();
         double pitch = scene.getCameraPitch();
