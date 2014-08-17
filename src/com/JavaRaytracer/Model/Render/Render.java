@@ -3,16 +3,14 @@ package com.JavaRaytracer.Model.Render;
 import com.JavaRaytracer.Model.Geometry.Point;
 import com.JavaRaytracer.Model.Geometry.Ray;
 import com.JavaRaytracer.Model.Geometry.Vector;
-import com.JavaRaytracer.Model.Scene.Color;
-import com.JavaRaytracer.Model.Scene.Light;
-import com.JavaRaytracer.Model.Scene.Scene;
-import com.JavaRaytracer.Model.Scene.Surface;
+import com.JavaRaytracer.Model.Scene.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 
 import java.nio.IntBuffer;
+import java.util.LinkedList;
 
 public class Render {
     private static Scene scene;
@@ -22,7 +20,9 @@ public class Render {
     private static int height;
 
     public static void setScene(Scene scene) {
-        Render.scene = scene;
+        if (scene != null) {
+            Render.scene = scene;
+        }
     }
 
     public static void setCanvas(Canvas canvas) {
@@ -38,42 +38,22 @@ public class Render {
         return pixelBuffer;
     }
 
+    /**
+     * Shoots a ray through each pixel into the scene and assigns
+     * the pixel its color.
+     */
     public static void trace() {
-        double yaw = scene.getCameraYaw();
-        double pitch = scene.getCameraPitch();
-        Point eye = scene.getCameraPos();
-        yaw = Math.toRadians(yaw);
-        Vector aim = new Vector(Math.sin(yaw), 0, -Math.cos(yaw));
-        Vector rAxis = Vector.cross(aim, new Vector(0, 1, 0));
+        LinkedList<Camera> cameraList = scene.getCameras();
+        Camera camera = cameraList.getFirst();
+        //System.out.println(camera.toString());
 
-        if (pitch % 360 != 0) {
-            pitch = Math.toRadians(pitch);
-            aim = Vector.getSum(
-                    rAxis.getScaled(Vector.dot(aim, rAxis) * (1 - Math.cos(pitch))),
-                    aim.getScaled(Math.cos(pitch)),
-                    Vector.cross(rAxis, aim).getScaled(Math.sin(pitch))
-            );
-        }
-
-        Vector upVec = Vector.cross(rAxis, aim);
-        Vector topLeft = Vector.getSum(
-                eye, aim, upVec.getScaled(scene.getHalfwidth()),
-                rAxis.getScaled(-scene.getHalfwidth())
-        );
-        double screenwidth = 2 * scene.getHalfwidth();
+        int currentPxl = 0;
         for (int i=0; i<height; i++) {
             for (int j=0; j<width; j++) {
                 Color shade = new Color();
-                double hfrac = screenwidth/width*(j+.5);
-                double vfrac = screenwidth/height*(i+.5);
-                Point pixel = Point.getSum(
-                        topLeft,
-                        rAxis.getScaled(hfrac),
-                        upVec.getScaled(-vfrac)
-                );
-                Ray ray = new Ray(eye, pixel);
+                Ray ray = camera.castRayTowardsPixel(i, j);
                 shade = Color.addColors(shade, trace(ray, 0));
-                pixelBuffer[i*width + j] = shade.toArgbInt();
+                pixelBuffer[currentPxl++] = shade.toArgbInt();
             }
         }
         writePixels();
@@ -87,8 +67,8 @@ public class Render {
         for (Surface current : scene.getSurfaces()) {
             Point temp = current.getIntersection(ray);
             if (temp != null) {
-                double distance = Vector.magnitude(new Vector(scene.getCameraPos(), temp));
-                if (intersection == null || distance < Vector.magnitude(new Vector(scene.getCameraPos(), intersection))) {
+                double distance = Vector.magnitude(new Vector(ray.getOrigin(), temp));
+                if (intersection == null || distance < Vector.magnitude(new Vector(ray.getOrigin(), intersection))) {
                     intersection = temp;
                     frontmost = current;
                 }
@@ -149,5 +129,13 @@ public class Render {
         PixelFormat<IntBuffer> format = PixelFormat.getIntArgbInstance();
         int offset = 0;
         writer.setPixels(0, 0, width, height, format, pixelBuffer, offset, width);
+    }
+
+    public static int getCanvasWidth() {
+        return width;
+    }
+
+    public static int getCanvasHeight() {
+        return height;
     }
 }

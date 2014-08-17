@@ -1,6 +1,5 @@
 # 3 colored quadrics
 
-fov 60
 light 10 2 0 1 1 1
 light -10 2 0 1 1 1
 
@@ -41,4 +40,5 @@ beginCamera
 position 3 4.5 1.5
 tilt -30
 spin -20
+fov 60
 endCamera

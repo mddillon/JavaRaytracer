@@ -1,7 +1,6 @@
 package com.JavaRaytracer.Model.Scene;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Scanner;
 
 import com.JavaRaytracer.Model.Geometry.Point;
@@ -10,14 +9,16 @@ import com.JavaRaytracer.Model.Geometry.Vector;
 
 public class SceneInterpreter {
     
-    private static Color ambient, diffuse, specular;
-    private static double reflectance, phong;
-    private static boolean existsError, settingCamera, creatingPlane;
-    private static Point[] vert;
-    private static Plane plane;
-    private static int numVerts;
-    
     public static Scene interpret(File sceneFile) {
+
+        int numVerts;
+        double reflectance, phong;
+        double cameraSettings[];
+        boolean existsError, settingCamera, creatingPlane;
+        Color ambient, diffuse, specular;
+        Point[] vert;
+        Plane plane;
+
         Scene scene = new Scene();
         existsError = false;
         settingCamera = false;
@@ -25,6 +26,10 @@ public class SceneInterpreter {
         numVerts = 0;
         ambient = new Color(); diffuse = new Color(); specular = new Color();
         reflectance = 0; phong = 0;
+        cameraSettings = new double[7]; // x, y, z, yaw, pitch, halfwidth, focalLength
+        plane = null;
+        vert = new Point[3];
+
         try {
             Scanner in = new Scanner(sceneFile);
             in.useDelimiter("\n");
@@ -34,17 +39,6 @@ public class SceneInterpreter {
                 String[] tokens = line.split("\\s+");
                 if (tokens.length != 0) {
                     switch (tokens[0]) {
-                        case "fov":
-							if (tokens.length != 2) {
-								existsError = true;
-								reportError(i);
-							}
-							else {
-                                // This conversion gives half of field of view, which is more important
-                                double angle = 0.5 * Math.toRadians(Double.parseDouble(tokens[1]));
-                                scene.setHalfwidth(Math.tan(angle));
-							}
-                            break;
                         case "background":
 							if (tokens.length != 4) {
 								existsError = true;
@@ -169,6 +163,22 @@ public class SceneInterpreter {
                             break;
                         case "beginCamera":
                             settingCamera = true;
+                            cameraSettings = new double[7];
+                            cameraSettings[5] = Math.tan(Math.PI / 6);
+                            cameraSettings[6] = 1;
+                            break;
+                        case "fov":
+                            if (settingCamera) {
+                                if (tokens.length != 2) {
+                                    existsError = true;
+                                    reportError(i);
+                                }
+                                else {
+                                    // This conversion gives half of field of view, which is more important
+                                    double angle = 0.5 * Math.toRadians(Double.parseDouble(tokens[1]));
+                                    cameraSettings[5] = Math.tan(angle);
+                                }
+                            }
                             break;
                         case "position":
                             if (settingCamera) {
@@ -177,13 +187,9 @@ public class SceneInterpreter {
                                     reportError(i);
                                 }
                                 else {
-                                    scene.setCameraPosition(
-                                            new Point(
-                                                Double.parseDouble(tokens[1]),
-                                                Double.parseDouble(tokens[2]),
-                                                Double.parseDouble(tokens[3])
-                                            )
-                                    );
+                                    cameraSettings[0] = Double.parseDouble(tokens[1]);
+                                    cameraSettings[1] = Double.parseDouble(tokens[2]);
+                                    cameraSettings[2] = Double.parseDouble(tokens[3]);
                                 }
                             }
                             break;
@@ -194,7 +200,7 @@ public class SceneInterpreter {
                                     reportError(i);
                                 }
                                 else {
-                                    scene.setCameraSpin(Double.parseDouble(tokens[1]));
+                                    cameraSettings[3] = Double.parseDouble(tokens[1]);
                                 }
                             }
                             break;
@@ -205,11 +211,12 @@ public class SceneInterpreter {
                                     reportError(i);
                                 }
                                 else {
-                                    scene.setCameraTilt(Double.parseDouble(tokens[1]));
+                                    cameraSettings[4] = Double.parseDouble(tokens[1]);
                                 }
                             }
                             break;
                         case "endCamera":
+                            scene.addCamera(new Camera(cameraSettings));
                             settingCamera = false;
                             break;
                         case "beginPlane":
@@ -289,13 +296,14 @@ public class SceneInterpreter {
                 }
 				i++;
             }
+            if (scene.getCameras().size() == 0) scene.addCamera(new Camera());
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Something else went wrong.");
         } finally {
             if (existsError) scene = null;
-            return scene;
         }
+        return scene;
     }
     
     private static void reportError(int line) {

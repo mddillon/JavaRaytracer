@@ -63,7 +63,10 @@ public class Ray extends Vector {
     public Point getOrigin() {
         return origin;
     }
-    
+
+    /**
+     * @return a String representation of the Ray
+     */
     public String toString() {
         String out = "Ray\n";
         out += "Direction: " + x + ", " + y + ", " + z + "\n";

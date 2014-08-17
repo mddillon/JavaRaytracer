@@ -1,7 +1,5 @@
 # several reflective spheres
 
-fov 60
-
 # blue background
 
 background 0.2 0.2 1
@@ -12,6 +10,7 @@ beginCamera
 position 0 1.5 .35
 tilt -25
 spin -5
+fov 60
 endCamera
 
 # two light sources

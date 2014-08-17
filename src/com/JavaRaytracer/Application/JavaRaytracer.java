@@ -12,9 +12,6 @@ import com.JavaRaytracer.Controller.MainController;
 
 public class JavaRaytracer extends Application {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -25,8 +22,10 @@ public class JavaRaytracer extends Application {
             // Load the root layout from the fxml file
             final String loc = "/com/JavaRaytracer/Resources/JavaRaytracer.fxml";
             FXMLLoader loader = new FXMLLoader(JavaRaytracer.class.getResource(loc));
+            // Create a project controller object and attach it to the loader.
             MainController mainController = new MainController(primaryStage);
             loader.setController(mainController);
+            // Finish preparing the application
             Parent rootLayout = loader.load();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);

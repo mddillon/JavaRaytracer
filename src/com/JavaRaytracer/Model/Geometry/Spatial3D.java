@@ -1,5 +1,9 @@
 package com.JavaRaytracer.Model.Geometry;
 
+/**
+ * An abstract class denoting any element of 3D space which therefore
+ * has x, y, and z components.
+ */
 public abstract class Spatial3D {
     protected double x, y, z;
     

@@ -21,6 +21,9 @@ public class Point extends Spatial3D {
         this.z = z;
     }
 
+    /**
+     * @return a String representation of the Point
+     */
     public String toString() {
         String out = "Point: ";
         out += x + ", " + y + ", " + z + "\n";
@@ -29,7 +32,7 @@ public class Point extends Spatial3D {
 
     /**
      * Adds multiple 3D elements by their coordinate values.
-     * @param terms a list of Spatial3D terms to be added
+     * @param terms an array of Spatial3D terms to be added
      * @return a new point whose coordinates are the sum of the terms' coordinates
      */
 
@@ -46,9 +49,9 @@ public class Point extends Spatial3D {
     /**
      * Finds the difference between two 3D elements by subtracting the second's
      * component values from the first's.
-     * @param a a point in world space
-     * @param b a point in world space
-     * @return a new point whose coordinates are equal to a - b
+     * @param a an element in 3D space
+     * @param b an element in 3D space
+     * @return a new point whose coordinates are equal to the component-wise a - b
      */    
     public static Point getDifference(Spatial3D a, Spatial3D b) {
         return new Point(a.x - b.x, a.y - b.y, a.z - b.z);

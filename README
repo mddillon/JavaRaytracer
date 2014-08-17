@@ -15,10 +15,6 @@ This JavaFX raytracer loads a scene from a text file that properly adheres to th
 IMPORTANT: The camera/eye position defaults to (0, 0, 0) and aims down the negative z axis. Adjustments can be made by using the camera block elements.
 
 Single-line Elements
-    # fov angle
-        Specifies field of view angle
-    # eye x y z
-        Specifies the world coordinates of the camera/eye
     # background r g b
         Specifies background color
     # light x y z r g b
@@ -49,8 +45,9 @@ Block Elements
     # position x y z
     # spin angle
     # tilt angle
+    # fov angle
     # endCamera
-        These keywords are used to perform camera adjustments. The position is in world coordinates, and the angles are both in radians. 'Spin' refers to the rotation in the xz plane, and tilt is the verticle angle.
+        These keywords are used to perform camera adjustments. The position is in world coordinates, and the angles are both in radians. 'Spin' refers to the rotation in the xz plane, and tilt is the verticle angle. FOV is the field of view angle, given in degrees.
 
     # beginPlane
         [OPTION 1]

@@ -74,7 +74,10 @@ public class Vector extends Spatial3D {
                                 2*normal.z*dotproduct - refl.z);
         return out;
     }
-    
+
+    /**
+     * @return a String representation of the Vector
+     */
     public String toString() {
         String out = "Vector: " + x + ", " + y + ", " + z + "\n";
         return out;

@@ -7,29 +7,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="425.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="400.0">
          <children>
-            <Canvas fx:id="mainCanvas" height="375.0" width="400.0" />
+            <Canvas fx:id="mainCanvas" height="400.0" width="400.0" />
          </children>
 	  </AnchorPane>
-      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0">
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="400.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="85.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="115.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="115.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="123.0" minWidth="10.0" prefWidth="60.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="40.0" minHeight="36.0" prefHeight="38.0" />
+            <RowConstraints maxHeight="4.0" minHeight="0.0" prefHeight="2.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <Button fx:id="LdScnBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="115.0" text="Load Scene">
+            <Button fx:id="LdScnBtn" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="115.0" text="Load Scene" GridPane.columnIndex="1">
                <font>
                   <Font size="15.0" />
                </font>
-               <HBox.margin>
+            </Button>
+            <Button fx:id="SaveBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="115.0" text="Save" GridPane.columnIndex="2">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <ProgressIndicator fx:id="PrgrsBar" prefHeight="11.0" prefWidth="22.0" progress="0.0" GridPane.columnIndex="3" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
                   <Insets />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="SaveBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="115.0" text="Save">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Button>
+               </GridPane.margin>
+            </ProgressIndicator>
          </children>
-      </HBox>
+      </GridPane>
    </children>
 </VBox>

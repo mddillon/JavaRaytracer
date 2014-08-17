@@ -27,16 +27,15 @@
     		<fileset dir="${bin-dir}" includes="**/*.class" />
     	</delete>
     </target>
-    
-    <target name="clean-jar">
-    	<delete file="${lib-dir}/${appName}.jar" />
+
+    <target name="prepare">
+        <mkdir dir="${rescpy-dir}" />
+        <copy todir="${rescpy-dir}">
+            <fileset dir="${res-dir}" />
+        </copy>
     </target>
     
-    <target name="jar" depends="compile">
-    	<mkdir dir="${rescpy-dir}" />
-    	<copy todir="${rescpy-dir}">
-    		<fileset dir="${res-dir}" />
-    	</copy>
+    <target name="jar" depends="compile, prepare">
     	<jar destfile="${lib-dir}/${appName}.jar">
 			<manifest>
 				<attribute name="Main-Class" value="${pkgroot}.Application.${appName}"/>
@@ -44,7 +43,11 @@
 			<fileset dir="${bin-dir}" />
 		</jar>
 	</target>
-	
+
+    <target name="clean-jar">
+        <delete file="${lib-dir}/${appName}.jar" />
+    </target>
+
 	<target name="run" depends="jar">
 		<java fork="true" jar="${lib-dir}/${appName}.jar">
 			<classpath path="${lib-dir}" />
